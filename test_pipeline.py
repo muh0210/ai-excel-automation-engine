@@ -13,7 +13,7 @@ try:
     print("✅ All imports OK")
 
     print("\nTesting loader...")
-    result = load_file("data/sample_sales.xlsx")
+    result = load_file("data/sample_ecommerce_sales.xlsx")
     df = result["dataframe"]
     print(f"✅ Loaded: {result['shape']}")
 

@@ -2,7 +2,7 @@
 🚀 AI EXCEL AUTOMATION ENGINE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Premium Streamlit Application
-Upload → Clean → Analyze → Explain → Predict → Visualize → Export
+Upload → Clean → Analyze → Explain → Detect Anomalies → Visualize → Export
 
 Author: Muhammad Rajput (muh0210)
 Contact: muhrajpoot1921@gmail.com
@@ -50,10 +50,7 @@ def _find_column(df, name):
 
 
 def process_natural_language_query(df, query):
-    """
-    Process a natural language query against the dataframe.
-    Supports: top/bottom N, filter, aggregations, sort, show columns, count unique, describe.
-    """
+    """Process a natural language query against the dataframe."""
     query_lower = query.lower().strip()
     try:
         if 'show columns' in query_lower or 'list columns' in query_lower:
@@ -143,14 +140,12 @@ st.set_page_config(
 # ── Custom CSS ────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    /* ── Global ──────────────────────────────────────── */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
     html, body, [class*="st-"] {
         font-family: 'Inter', sans-serif;
     }
 
-    /* ── Header ──────────────────────────────────────── */
     .main-header {
         background: linear-gradient(135deg, #7C3AED 0%, #3B82F6 50%, #06B6D4 100%);
         padding: 2rem 2.5rem;
@@ -159,20 +154,12 @@ st.markdown("""
         box-shadow: 0 8px 32px rgba(124, 58, 237, 0.3);
     }
     .main-header h1 {
-        color: white;
-        font-size: 2.2rem;
-        font-weight: 800;
-        margin: 0;
-        letter-spacing: -0.5px;
+        color: white; font-size: 2.2rem; font-weight: 800; margin: 0; letter-spacing: -0.5px;
     }
     .main-header p {
-        color: rgba(255,255,255,0.85);
-        font-size: 1rem;
-        margin: 0.5rem 0 0 0;
-        font-weight: 300;
+        color: rgba(255,255,255,0.85); font-size: 1rem; margin: 0.5rem 0 0 0; font-weight: 300;
     }
 
-    /* ── Section Headers ─────────────────────────────── */
     .section-header {
         background: linear-gradient(90deg, rgba(124,58,237,0.15), transparent);
         border-left: 4px solid #7C3AED;
@@ -184,7 +171,6 @@ st.markdown("""
         color: #E2E8F0;
     }
 
-    /* ── KPI Cards ───────────────────────────────────── */
     .kpi-card {
         background: linear-gradient(145deg, #1E293B, #0F172A);
         border: 1px solid rgba(124,58,237,0.25);
@@ -199,66 +185,27 @@ st.markdown("""
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(124,58,237,0.2);
     }
-    .kpi-value {
-        font-size: 1.75rem;
-        font-weight: 800;
-        color: #7C3AED;
-        margin: 0;
-    }
-    .kpi-label {
-        font-size: 0.8rem;
-        color: #94A3B8;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin: 0.25rem 0 0 0;
-    }
-    .kpi-delta {
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-top: 0.25rem;
-    }
+    .kpi-value { font-size: 1.75rem; font-weight: 800; color: #7C3AED; margin: 0; }
+    .kpi-label { font-size: 0.8rem; color: #94A3B8; text-transform: uppercase; letter-spacing: 1px; margin: 0.25rem 0 0 0; }
+    .kpi-delta { font-size: 0.85rem; font-weight: 600; margin-top: 0.25rem; }
     .kpi-delta.positive { color: #10B981; }
     .kpi-delta.negative { color: #EF4444; }
 
-    /* ── Insight Cards ───────────────────────────────── */
     .insight-card {
-        background: #1E293B;
-        border-radius: 10px;
-        padding: 1rem 1.25rem;
-        margin-bottom: 0.75rem;
-        border-left: 4px solid #3B82F6;
-        transition: all 0.2s ease;
+        background: #1E293B; border-radius: 10px; padding: 1rem 1.25rem;
+        margin-bottom: 0.75rem; border-left: 4px solid #3B82F6; transition: all 0.2s ease;
     }
-    .insight-card:hover {
-        background: #263548;
-    }
+    .insight-card:hover { background: #263548; }
     .insight-card.positive { border-left-color: #10B981; }
     .insight-card.warning { border-left-color: #F59E0B; }
     .insight-card.critical { border-left-color: #EF4444; }
     .insight-card.info { border-left-color: #3B82F6; }
+    .insight-category { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94A3B8; margin-bottom: 0.25rem; }
+    .insight-text { color: #E2E8F0; font-size: 0.95rem; line-height: 1.5; }
 
-    .insight-category {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: #94A3B8;
-        margin-bottom: 0.25rem;
-    }
-    .insight-text {
-        color: #E2E8F0;
-        font-size: 0.95rem;
-        line-height: 1.5;
-    }
-
-    /* ── Cleaning Report Badge ───────────────────────── */
     .badge {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        margin-right: 0.5rem;
-        margin-bottom: 0.35rem;
+        display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px;
+        font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; margin-bottom: 0.35rem;
     }
     .badge-purple { background: rgba(124,58,237,0.2); color: #A78BFA; }
     .badge-blue { background: rgba(59,130,246,0.2); color: #60A5FA; }
@@ -266,39 +213,23 @@ st.markdown("""
     .badge-yellow { background: rgba(245,158,11,0.2); color: #FBBF24; }
     .badge-red { background: rgba(239,68,68,0.2); color: #F87171; }
 
-    /* ── Upload Zone ─────────────────────────────────── */
-    [data-testid="stFileUploader"] {
-        border: 2px dashed rgba(124,58,237,0.4);
-        border-radius: 12px;
-        padding: 1rem;
+    .empty-state {
+        background: #1E293B; border-radius: 12px; padding: 2rem; text-align: center;
+        border: 1px dashed rgba(124,58,237,0.3);
     }
-    [data-testid="stFileUploader"]:hover {
-        border-color: #7C3AED;
-    }
+    .empty-state p.icon { font-size: 2rem; margin: 0; }
+    .empty-state p.msg { color: #94A3B8; font-size: 0.9rem; margin: 0.5rem 0 0; }
 
-    /* ── Sidebar ─────────────────────────────────────── */
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0F172A, #1E293B) !important;
-    }
+    [data-testid="stFileUploader"] { border: 2px dashed rgba(124,58,237,0.4); border-radius: 12px; padding: 1rem; }
+    [data-testid="stFileUploader"]:hover { border-color: #7C3AED; }
+    [data-testid="stSidebar"] { background: linear-gradient(180deg, #0F172A, #1E293B) !important; }
 
-    /* ── Hide default Streamlit elements ─────────────── */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 
-    /* ── Tabs ────────────────────────────────────────── */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        background: transparent;
-        border-radius: 8px;
-        padding: 8px 16px;
-        color: #94A3B8;
-    }
-    .stTabs [aria-selected="true"] {
-        background: rgba(124,58,237,0.2) !important;
-        color: #A78BFA !important;
-    }
+    .stTabs [data-baseweb="tab-list"] { gap: 8px; }
+    .stTabs [data-baseweb="tab"] { background: transparent; border-radius: 8px; padding: 8px 16px; color: #94A3B8; }
+    .stTabs [aria-selected="true"] { background: rgba(124,58,237,0.2) !important; color: #A78BFA !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -318,7 +249,6 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     st.markdown("---")
-
     st.markdown("### ⚙️ Settings")
 
     anomaly_method = st.selectbox(
@@ -336,7 +266,6 @@ with st.sidebar:
     show_raw_data = st.checkbox("Show Raw Data", value=False)
 
     st.markdown("---")
-
     st.markdown("""
     <div style="text-align:center; padding: 0.5rem;">
         <p style="color: #64748B; font-size: 0.75rem;">
@@ -415,11 +344,12 @@ if uploaded_file is not None:
             df_raw = load_specific_sheet(uploaded_file, selected_sheet)
 
     # File info badges
+    file_name = result.get('file_name', 'data')
     st.markdown(f"""
     <div style="margin: 1rem 0;">
-        <span class="badge badge-purple">📁 {result['file_name']}</span>
-        <span class="badge badge-blue">📐 {result['shape'][0]} rows × {result['shape'][1]} cols</span>
-        <span class="badge badge-green">💾 {result['file_size_kb']} KB</span>
+        <span class="badge badge-purple">📁 {file_name}</span>
+        <span class="badge badge-blue">📐 {df_raw.shape[0]} rows × {df_raw.shape[1]} cols</span>
+        <span class="badge badge-green">💾 {result.get('file_size_kb', '?')} KB</span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -434,65 +364,43 @@ if uploaded_file is not None:
     with st.spinner("🧹 Cleaning your data..."):
         df_clean, cleaning_report = clean_data(df_raw)
 
-    # Cleaning report display
-    col_cr1, col_cr2, col_cr3, col_cr4 = st.columns(4)
-
-    with col_cr1:
-        st.markdown(f"""
-        <div class="kpi-card">
-            <p class="kpi-value">{cleaning_report['duplicates_removed']}</p>
-            <p class="kpi-label">Duplicates Removed</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col_cr2:
+    # Cleaning report KPI cards
+    cr1, cr2, cr3, cr4 = st.columns(4)
+    with cr1:
+        st.markdown(f'<div class="kpi-card"><p class="kpi-value">{cleaning_report["duplicates_removed"]}</p><p class="kpi-label">Duplicates Removed</p></div>', unsafe_allow_html=True)
+    with cr2:
         total_missing = sum(cleaning_report.get('missing_values_before', {}).values())
-        st.markdown(f"""
-        <div class="kpi-card">
-            <p class="kpi-value">{total_missing}</p>
-            <p class="kpi-label">Missing Values Fixed</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col_cr3:
+        st.markdown(f'<div class="kpi-card"><p class="kpi-value">{total_missing}</p><p class="kpi-label">Missing Values Fixed</p></div>', unsafe_allow_html=True)
+    with cr3:
         type_changes = len(cleaning_report.get('type_conversions', {}))
-        st.markdown(f"""
-        <div class="kpi-card">
-            <p class="kpi-value">{type_changes}</p>
-            <p class="kpi-label">Type Conversions</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col_cr4:
+        st.markdown(f'<div class="kpi-card"><p class="kpi-value">{type_changes}</p><p class="kpi-label">Type Conversions</p></div>', unsafe_allow_html=True)
+    with cr4:
         completeness = cleaning_report.get('data_completeness', 100)
-        st.markdown(f"""
-        <div class="kpi-card">
-            <p class="kpi-value">{completeness}%</p>
-            <p class="kpi-label">Data Completeness</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f'<div class="kpi-card"><p class="kpi-value">{completeness}%</p><p class="kpi-label">Data Completeness</p></div>', unsafe_allow_html=True)
 
-    # Detailed cleaning report
-    with st.expander("🔍 Detailed Cleaning Report"):
+    # Detailed cleaning report expander
+    with st.expander("🔍 Detailed Cleaning Report", expanded=False):
         if cleaning_report.get('columns_renamed'):
             st.markdown("**Column Renames:**")
             for old, new in cleaning_report['columns_renamed'].items():
                 st.markdown(f"  `{old}` → `{new}`")
-
         if cleaning_report.get('missing_value_actions'):
             st.markdown("**Missing Value Actions:**")
             for col, action in cleaning_report['missing_value_actions'].items():
-                st.markdown(f"  • `{col}`: {action}")
-
+                st.markdown(f"  - `{col}`: {action}")
         if cleaning_report.get('type_conversions'):
             st.markdown("**Type Conversions:**")
             for col, change in cleaning_report['type_conversions'].items():
-                st.markdown(f"  • `{col}`: {change}")
-
+                st.markdown(f"  - `{col}`: {change}")
         st.markdown(f"**Shape:** {cleaning_report['original_shape']} → {cleaning_report['cleaned_shape']}")
 
     with st.expander("📋 Cleaned Data Preview", expanded=False):
         st.dataframe(df_clean, use_container_width=True, height=300)
+
+    # ── Detect column types for later use ────────────────────────────
+    numeric_cols = list(df_clean.select_dtypes(include='number').columns)
+    cat_cols = list(df_clean.select_dtypes(include=['object', 'category']).columns)
+    date_cols = list(df_clean.select_dtypes(include='datetime').columns)
 
     # ── STEP 3: KPI Dashboard ───────────────────────────────────────
     st.markdown('<div class="section-header">📊 KPI Dashboard</div>', unsafe_allow_html=True)
@@ -501,11 +409,9 @@ if uploaded_file is not None:
     analysis = basic_analysis(df_clean)
 
     if kpis:
-        # Show up to 4 KPIs in top row
-        kpi_cols = list(kpis.keys())[:4]
-        cols = st.columns(len(kpi_cols))
-
-        for i, col_name in enumerate(kpi_cols):
+        kpi_names = list(kpis.keys())[:4]
+        cols = st.columns(len(kpi_names))
+        for i, col_name in enumerate(kpi_names):
             with cols[i]:
                 k = kpis[col_name]
                 delta_class = 'positive' if k['growth_pct'] >= 0 else 'negative'
@@ -518,11 +424,10 @@ if uploaded_file is not None:
                 </div>
                 """, unsafe_allow_html=True)
 
-        # Secondary KPI row (averages)
-        st.markdown("")
-        sec_cols = st.columns(len(kpi_cols))
-        for i, col_name in enumerate(kpi_cols):
-            with sec_cols[i]:
+        # Averages row
+        avg_cols = st.columns(len(kpi_names))
+        for i, col_name in enumerate(kpi_names):
+            with avg_cols[i]:
                 k = kpis[col_name]
                 st.markdown(f"""
                 <div class="kpi-card">
@@ -531,37 +436,24 @@ if uploaded_file is not None:
                 </div>
                 """, unsafe_allow_html=True)
     else:
-        st.markdown("""
-        <div style="background: #1E293B; border-radius: 12px; padding: 2rem; text-align: center; border: 1px dashed rgba(124,58,237,0.3);">
-            <p style="font-size: 2rem; margin: 0;">📭</p>
-            <p style="color: #94A3B8; font-size: 0.9rem; margin: 0.5rem 0 0;">No numeric columns found for KPI calculations.<br>Upload a dataset with numeric data to see metrics here.</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown('<div class="empty-state"><p class="icon">📭</p><p class="msg">No numeric columns found for KPI calculations.<br>Upload a dataset with numeric data to see metrics here.</p></div>', unsafe_allow_html=True)
 
     # ── STEP 4: Interactive Charts ───────────────────────────────────
     st.markdown('<div class="section-header">📈 Interactive Visualizations</div>', unsafe_allow_html=True)
 
-    numeric_cols = list(df_clean.select_dtypes(include='number').columns)
-    cat_cols = list(df_clean.select_dtypes(include=['object', 'category']).columns)
-    date_cols = list(df_clean.select_dtypes(include='datetime').columns)
-
     if not numeric_cols:
-        st.markdown("""
-        <div style="background: #1E293B; border-radius: 12px; padding: 2rem; text-align: center; border: 1px dashed rgba(124,58,237,0.3);">
-            <p style="font-size: 2rem; margin: 0;">📊</p>
-            <p style="color: #94A3B8; font-size: 0.9rem; margin: 0.5rem 0 0;">No numeric columns available for visualization.<br>Upload a dataset with numeric data to see interactive charts.</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown('<div class="empty-state"><p class="icon">📊</p><p class="msg">No numeric columns available for visualization.<br>Upload a dataset with numeric data to see interactive charts.</p></div>', unsafe_allow_html=True)
     else:
         chart_tabs = st.tabs(["📊 Distribution", "📈 Trends", "🔗 Correlation", "🍩 Categories", "📦 Box Plot"])
 
-        # Tab 1: Distribution (Histogram)
         with chart_tabs[0]:
-            hist_col = st.selectbox("Select column for distribution:", numeric_cols, key='hist_col')
-            fig = histogram_chart(df_clean, hist_col)
-            st.plotly_chart(fig, use_container_width=True)
+            hist_col = st.selectbox("Select column:", numeric_cols, key='hist_col')
+            try:
+                fig = histogram_chart(df_clean, hist_col)
+                st.plotly_chart(fig, use_container_width=True)
+            except Exception as e:
+                st.error(f"Chart error: {e}")
 
-        # Tab 2: Trends (Line chart)
         with chart_tabs[1]:
             if date_cols:
                 tc1, tc2 = st.columns(2)
@@ -569,36 +461,40 @@ if uploaded_file is not None:
                     trend_date = st.selectbox("Date column:", date_cols, key='trend_date')
                 with tc2:
                     trend_val = st.selectbox("Value column:", numeric_cols, key='trend_val')
-
-                trend_result = trend_analysis(df_clean, trend_date, trend_val)
-                if trend_result:
-                    st.markdown(f"""
-                    <div style="background: #1E293B; border-radius: 10px; padding: 1rem; margin-bottom: 1rem;">
-                        <span class="badge badge-purple">Trend: {trend_result['direction']}</span>
-                        <span class="badge badge-blue">Change: {trend_result['change_pct']:+.1f}%</span>
-                        <span class="badge badge-green">Points: {trend_result['data_points']}</span>
-                    </div>
-                    """, unsafe_allow_html=True)
-
-                    fig = line_chart(trend_result['time_series_df'], trend_date, trend_val)
-                    st.plotly_chart(fig, use_container_width=True)
+                try:
+                    trend_result = trend_analysis(df_clean, trend_date, trend_val)
+                    if trend_result:
+                        st.markdown(f"""
+                        <div style="background: #1E293B; border-radius: 10px; padding: 1rem; margin-bottom: 1rem;">
+                            <span class="badge badge-purple">Trend: {trend_result['direction']}</span>
+                            <span class="badge badge-blue">Change: {trend_result['change_pct']:+.1f}%</span>
+                            <span class="badge badge-green">Points: {trend_result['data_points']}</span>
+                        </div>
+                        """, unsafe_allow_html=True)
+                        fig = line_chart(trend_result['time_series_df'], trend_date, trend_val)
+                        st.plotly_chart(fig, use_container_width=True)
+                except Exception as e:
+                    st.error(f"Trend chart error: {e}")
             else:
-                # No date column — plot against index
                 idx_val = st.selectbox("Value column:", numeric_cols, key='idx_trend_val')
-                df_plot = df_clean[[idx_val]].reset_index()
-                fig = line_chart(df_plot, 'index', idx_val, title=f'{idx_val} Over Row Index')
-                st.plotly_chart(fig, use_container_width=True)
+                try:
+                    df_plot = df_clean[[idx_val]].reset_index()
+                    fig = line_chart(df_plot, 'index', idx_val, title=f'{idx_val} Over Row Index')
+                    st.plotly_chart(fig, use_container_width=True)
+                except Exception as e:
+                    st.error(f"Trend chart error: {e}")
 
-        # Tab 3: Correlation Heatmap
         with chart_tabs[2]:
-            corr = correlation_analysis(df_clean)
-            if corr is not None:
-                fig = heatmap_chart(corr)
-                st.plotly_chart(fig, use_container_width=True)
-            else:
-                st.info("Need at least 2 numeric columns for correlation analysis.")
+            try:
+                corr = correlation_analysis(df_clean)
+                if corr is not None and len(corr) > 1:
+                    fig = heatmap_chart(corr)
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("Need at least 2 numeric columns for correlation analysis.")
+            except Exception as e:
+                st.error(f"Heatmap error: {e}")
 
-        # Tab 4: Category Analysis (Pie/Bar)
         with chart_tabs[3]:
             if cat_cols:
                 cc1, cc2 = st.columns(2)
@@ -606,31 +502,33 @@ if uploaded_file is not None:
                     cat_col = st.selectbox("Category column:", cat_cols, key='cat_col')
                 with cc2:
                     val_col = st.selectbox("Value column:", numeric_cols, key='cat_val')
-
-                grouped = df_clean.groupby(cat_col)[val_col].sum().reset_index()
-                grouped.columns = [cat_col, val_col]
-
-                chart_c1, chart_c2 = st.columns(2)
-                with chart_c1:
-                    fig = pie_chart(grouped, cat_col, val_col)
-                    st.plotly_chart(fig, use_container_width=True)
-                with chart_c2:
-                    fig = bar_chart(grouped, cat_col, val_col)
-                    st.plotly_chart(fig, use_container_width=True)
+                try:
+                    grouped = df_clean.groupby(cat_col)[val_col].sum().reset_index()
+                    grouped.columns = [cat_col, val_col]
+                    c1, c2 = st.columns(2)
+                    with c1:
+                        fig = pie_chart(grouped, cat_col, val_col)
+                        st.plotly_chart(fig, use_container_width=True)
+                    with c2:
+                        fig = bar_chart(grouped, cat_col, val_col)
+                        st.plotly_chart(fig, use_container_width=True)
+                except Exception as e:
+                    st.error(f"Category chart error: {e}")
             else:
                 st.info("No categorical columns found for category analysis.")
 
-        # Tab 5: Box Plot
         with chart_tabs[4]:
             bc1, bc2 = st.columns(2)
             with bc1:
                 box_col = st.selectbox("Numeric column:", numeric_cols, key='box_col')
             with bc2:
                 box_cat = st.selectbox("Group by (optional):", ['None'] + cat_cols, key='box_cat')
-
-            color_by = box_cat if box_cat != 'None' else None
-            fig = box_chart(df_clean, box_col, color_col=color_by)
-            st.plotly_chart(fig, use_container_width=True)
+            try:
+                color_by = box_cat if box_cat != 'None' else None
+                fig = box_chart(df_clean, box_col, color_col=color_by)
+                st.plotly_chart(fig, use_container_width=True)
+            except Exception as e:
+                st.error(f"Box plot error: {e}")
 
     # ── STEP 5: AI Insights ──────────────────────────────────────────
     st.markdown('<div class="section-header">🧠 AI-Generated Insights</div>', unsafe_allow_html=True)
@@ -639,7 +537,6 @@ if uploaded_file is not None:
         insights = generate_insights(df_clean, cleaning_report)
         narrative = generate_summary_narrative(df_clean, kpis, insights)
 
-    # Executive summary
     st.markdown(f"""
     <div style="background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(59,130,246,0.1));
                 border: 1px solid rgba(124,58,237,0.2); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;">
@@ -650,16 +547,11 @@ if uploaded_file is not None:
     </div>
     """, unsafe_allow_html=True)
 
-    # Insight cards
     for insight in insights:
-        severity = insight['severity']
-        icon = insight['icon']
-        category = insight['category']
-        text = insight['insight']
         st.markdown(f"""
-        <div class="insight-card {severity}">
-            <p class="insight-category">{category}</p>
-            <p class="insight-text">{icon} {text}</p>
+        <div class="insight-card {insight['severity']}">
+            <p class="insight-category">{insight['category']}</p>
+            <p class="insight-text">{insight['icon']} {insight['insight']}</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -674,29 +566,26 @@ if uploaded_file is not None:
     for summary_line in anom_summaries:
         st.markdown(summary_line)
 
-    # Anomaly visualization
     if anomaly_results:
         anomaly_col = st.selectbox(
             "Visualize anomalies for:",
             list(anomaly_results.keys()),
             key='anom_viz_col'
         )
-
         if anomaly_col:
             anom_result = anomaly_results[anomaly_col]
-
-            # Show anomaly chart
             if date_cols:
                 x_axis = date_cols[0]
             else:
                 df_clean = df_clean.copy()
                 df_clean['_row_index'] = range(len(df_clean))
                 x_axis = '_row_index'
+            try:
+                fig = anomaly_chart(df_clean, x_axis, anomaly_col, anom_result['anomaly_mask'])
+                st.plotly_chart(fig, use_container_width=True)
+            except Exception as e:
+                st.error(f"Anomaly chart error: {e}")
 
-            fig = anomaly_chart(df_clean, x_axis, anomaly_col, anom_result['anomaly_mask'])
-            st.plotly_chart(fig, use_container_width=True)
-
-            # Show anomaly table
             if not anom_result['anomalies_df'].empty:
                 with st.expander(f"📋 Anomalous Records ({anom_result['count']} found)"):
                     display_df = anom_result['anomalies_df'].copy()
@@ -711,12 +600,8 @@ if uploaded_file is not None:
     <div style="background: #1E293B; border-radius: 10px; padding: 1rem; margin-bottom: 1rem;">
         <p style="color: #94A3B8; font-size: 0.85rem; margin:0;">
             <b style="color: #A78BFA;">Try queries like:</b><br>
-            • "show top 5 by sales"<br>
-            • "filter where region is North"<br>
-            • "average of profit"<br>
-            • "show columns"<br>
-            • "count unique category"<br>
-            • "sort by quantity descending"
+            • "show top 5 by sales" &nbsp; • "average of profit" &nbsp; • "filter where region is North"<br>
+            • "show columns" &nbsp; • "count unique category" &nbsp; • "sort by quantity descending"
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -754,18 +639,21 @@ if uploaded_file is not None:
         </div>
         """, unsafe_allow_html=True)
 
-        with st.spinner("Generating Excel report..."):
+        try:
             excel_buffer = ExcelReportGenerator.generate(
                 df_clean, analysis, anomaly_results, kpis
             )
-        st.download_button(
-            label="📥 Download Excel Report",
-            data=excel_buffer,
-            file_name=f"ai_report_{result['file_name'].rsplit('.', 1)[0]}.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            use_container_width=True,
-            key='dl_excel_btn'
-        )
+            safe_name = file_name.rsplit('.', 1)[0] if '.' in file_name else file_name
+            st.download_button(
+                label="📥 Download Excel Report",
+                data=excel_buffer,
+                file_name=f"ai_report_{safe_name}.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                use_container_width=True,
+                key='dl_excel_btn'
+            )
+        except Exception as e:
+            st.error(f"Excel report error: {e}")
 
     with report_cols[1]:
         st.markdown("""
@@ -778,18 +666,21 @@ if uploaded_file is not None:
         </div>
         """, unsafe_allow_html=True)
 
-        with st.spinner("Generating PDF report..."):
+        try:
             pdf_buffer = PDFReportGenerator.generate(
                 df_clean, kpis, insights, anom_summaries, narrative
             )
-        st.download_button(
-            label="📥 Download PDF Report",
-            data=pdf_buffer,
-            file_name=f"ai_report_{result['file_name'].rsplit('.', 1)[0]}.pdf",
-            mime="application/pdf",
-            use_container_width=True,
-            key='dl_pdf_btn'
-        )
+            safe_name = file_name.rsplit('.', 1)[0] if '.' in file_name else file_name
+            st.download_button(
+                label="📥 Download PDF Report",
+                data=pdf_buffer,
+                file_name=f"ai_report_{safe_name}.pdf",
+                mime="application/pdf",
+                use_container_width=True,
+                key='dl_pdf_btn'
+            )
+        except Exception as e:
+            st.error(f"PDF report error: {e}")
 
     # ── Footer ───────────────────────────────────────────────────────
     st.markdown("---")
@@ -810,7 +701,6 @@ else:
     st.markdown("")
 
     feature_cols = st.columns(3)
-
     features = [
         ("🧹", "Smart Cleaning", "Auto-removes duplicates, fills missing values, fixes data types"),
         ("🧠", "AI Insights", "Converts raw data into human-readable business narratives"),
@@ -838,4 +728,3 @@ else:
         <p style="color: #64748B; font-size: 0.85rem;">Drop an Excel or CSV file in the upload area above</p>
     </div>
     """, unsafe_allow_html=True)
-

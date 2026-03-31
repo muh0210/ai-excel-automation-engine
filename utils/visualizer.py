@@ -2,12 +2,11 @@
 MODULE 4: VISUALIZATION ENGINE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Interactive Plotly charts — premium quality, auto-configured.
-Supports line, bar, scatter, pie, heatmap, and box plots.
+Supports line, bar, scatter, pie, heatmap, box, histogram, and anomaly charts.
 """
 
 import plotly.express as px
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import pandas as pd
 import numpy as np
 
@@ -47,7 +46,10 @@ CHART_LAYOUT = dict(
 
 def _apply_layout(fig, title=''):
     """Apply the premium layout to a figure."""
-    fig.update_layout(**CHART_LAYOUT, title=dict(text=title, font=dict(size=18, color=COLORS['text'])))
+    fig.update_layout(
+        **CHART_LAYOUT,
+        title=dict(text=title, font=dict(size=18, color=COLORS['text']))
+    )
     return fig
 
 
@@ -108,11 +110,11 @@ def pie_chart(df, names_col, values_col, title=None):
 
 
 def heatmap_chart(corr_matrix, title='Correlation Heatmap'):
-    """Heatmap for correlation matrix."""
+    """Heatmap for correlation matrix — compatible with all Plotly versions."""
     fig = go.Figure(data=go.Heatmap(
         z=corr_matrix.values,
-        x=corr_matrix.columns,
-        y=corr_matrix.columns,
+        x=list(corr_matrix.columns),
+        y=list(corr_matrix.columns),
         colorscale=[
             [0, '#EF4444'],
             [0.25, '#F97316'],
@@ -121,13 +123,12 @@ def heatmap_chart(corr_matrix, title='Correlation Heatmap'):
             [1, '#7C3AED']
         ],
         zmin=-1, zmax=1,
-        text=corr_matrix.values.round(2),
+        text=np.round(corr_matrix.values, 2),
         texttemplate='%{text}',
         textfont=dict(size=11, color=COLORS['text']),
         hoverongaps=False,
         colorbar=dict(
-            title='Correlation',
-            titlefont=dict(color=COLORS['text']),
+            title=dict(text='Correlation', font=dict(color=COLORS['text'])),
             tickfont=dict(color=COLORS['text'])
         )
     ))
@@ -190,33 +191,13 @@ def anomaly_chart(df, x_col, y_col, anomaly_mask, title=None):
 
     # Anomaly points
     anomalies = df[anomaly_mask]
-    fig.add_trace(go.Scatter(
-        x=anomalies[x_col], y=anomalies[y_col],
-        mode='markers',
-        name='⚠️ Anomaly',
-        marker=dict(size=12, color=COLORS['danger'], symbol='x',
-                     line=dict(width=2, color='#FECACA')),
-    ))
+    if len(anomalies) > 0:
+        fig.add_trace(go.Scatter(
+            x=anomalies[x_col], y=anomalies[y_col],
+            mode='markers',
+            name='Anomaly',
+            marker=dict(size=12, color=COLORS['danger'], symbol='x',
+                        line=dict(width=2, color='#FECACA')),
+        ))
 
     return _apply_layout(fig, title)
-
-
-def kpi_sparkline(values, title='', color=None):
-    """Mini sparkline chart for KPI cards."""
-    color = color or COLORS['primary']
-    fig = go.Figure(go.Scatter(
-        y=values, mode='lines',
-        fill='tozeroy',
-        line=dict(color=color, width=2),
-        fillcolor=f'rgba({int(color[1:3], 16)},{int(color[3:5], 16)},{int(color[5:7], 16)},0.15)'
-    ))
-    fig.update_layout(
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        margin=dict(l=0, r=0, t=0, b=0),
-        height=60, width=150,
-        xaxis=dict(visible=False),
-        yaxis=dict(visible=False),
-        showlegend=False,
-    )
-    return fig
