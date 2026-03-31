@@ -1,0 +1,101 @@
+Student_ID,Student_Name,Subject,Semester,Marks,Grade,Attendance_%,Study_Hours_Per_Week
+STU-001,Student_1,Mathematics,Spring 2024,79.0,B+,90.8,6.0
+STU-002,Student_2,Computer Science,Fall 2024,79.6,C+,79.4,3.6
+STU-003,Student_3,Chemistry,Fall 2023,74.7,B,89.9,7.8
+STU-004,Student_4,English,Fall 2024,58.3,D,76.3,2.7
+STU-005,Student_5,Computer Science,Spring 2024,56.6,B+,100.0,4.2
+STU-006,Student_6,Chemistry,Spring 2024,70.5,A+,50.0,4.6
+STU-007,Student_7,English,Fall 2023,74.2,A+,90.1,6.2
+STU-008,Student_8,Chemistry,Fall 2023,61.8,C,60.8,7.2
+STU-009,Student_9,Computer Science,Fall 2024,78.4,B,79.3,7.1
+STU-010,Student_10,Physics,Fall 2023,100.0,C+,81.0,5.4
+STU-011,Student_11,Computer Science,Fall 2024,45.8,B+,100.0,4.4
+STU-012,Student_12,Mathematics,Fall 2023,,B+,73.7,1.3
+STU-013,Student_13,Chemistry,Fall 2024,71.0,A+,97.7,2.4
+STU-014,Student_14,Physics,Fall 2024,78.8,F,67.9,8.5
+STU-015,Student_15,Chemistry,Fall 2024,65.5,C+,98.2,1.3
+STU-016,Student_16,Chemistry,Fall 2024,69.8,D,76.3,3.4
+STU-017,Student_17,English,Spring 2024,73.9,B+,82.9,7.3
+STU-018,Student_18,Mathematics,Fall 2024,67.5,B,78.0,5.4
+STU-019,Student_19,Chemistry,Fall 2023,49.2,C+,97.4,6.9
+STU-020,Student_20,Computer Science,Spring 2024,68.5,B+,95.1,6.1
+STU-021,Student_21,Computer Science,Spring 2024,50.8,C,87.3,7.9
+STU-022,Student_22,English,Fall 2024,81.8,D,68.2,5.6
+STU-023,Student_23,Mathematics,Spring 2024,44.0,C,73.4,6.3
+STU-024,Student_24,Mathematics,Fall 2024,87.4,C+,69.7,3.6
+STU-025,Student_25,Computer Science,Fall 2023,78.4,B+,55.0,6.2
+STU-026,Student_26,Physics,Fall 2024,,B+,97.1,4.2
+STU-027,Student_27,English,Spring 2024,39.5,F,78.1,4.1
+STU-028,Student_28,English,Fall 2023,67.1,A+,77.9,6.8
+STU-029,Student_29,Computer Science,Fall 2024,89.3,C+,100.0,6.8
+STU-030,Student_30,Computer Science,Fall 2023,64.2,C+,76.3,8.4
+STU-031,Student_31,Physics,Fall 2023,55.8,B,71.9,8.2
+STU-032,Student_32,Physics,Spring 2024,62.4,F,79.3,6.8
+STU-033,Student_33,Mathematics,Fall 2023,71.0,B+,68.4,1.6
+STU-034,Student_34,English,Spring 2024,59.2,B+,86.1,8.7
+STU-035,Student_35,English,Fall 2023,90.5,A+,77.5,6.8
+STU-036,Student_36,Computer Science,Fall 2024,71.0,B,75.9,3.5
+STU-037,Student_37,Mathematics,Fall 2023,,B+,74.9,6.5
+STU-038,Student_38,English,Fall 2024,52.5,B+,80.7,2.9
+STU-039,Student_39,Mathematics,Fall 2024,79.3,C,83.0,6.2
+STU-040,Student_40,Mathematics,Fall 2023,78.9,D,75.8,2.4
+STU-041,Student_41,Computer Science,Fall 2024,60.1,A,77.7,3.4
+STU-042,Student_42,Mathematics,Fall 2023,38.5,B+,81.0,6.4
+STU-043,Student_43,Physics,Fall 2023,,D,79.8,7.1
+STU-044,Student_44,Physics,Fall 2024,69.2,A+,82.4,5.7
+STU-045,Student_45,Chemistry,Fall 2024,77.0,A,73.9,4.4
+STU-046,Student_46,Computer Science,Spring 2024,100.0,A,,0.8
+STU-047,Student_47,Chemistry,Fall 2024,71.6,B,83.2,4.6
+STU-048,Student_48,Physics,Spring 2024,64.3,A,76.0,6.1
+STU-049,Student_49,Chemistry,Fall 2024,54.8,F,86.1,4.4
+STU-050,Student_50,Computer Science,Fall 2023,67.3,B,81.1,5.0
+STU-051,Student_51,Computer Science,Fall 2024,,B,61.2,4.6
+STU-052,Student_52,Mathematics,Fall 2023,72.8,B+,86.1,4.4
+STU-053,Student_53,English,Fall 2023,97.9,B,,5.2
+STU-054,Student_54,Mathematics,Fall 2023,79.5,C+,93.2,4.5
+STU-055,Student_55,Computer Science,Spring 2024,70.0,C+,79.1,7.9
+STU-056,Student_56,Physics,Fall 2024,61.4,C+,91.4,0.6
+STU-057,Student_57,Physics,Fall 2023,76.0,B,74.4,3.9
+STU-058,Student_58,Mathematics,Fall 2023,58.4,D,82.8,3.3
+STU-059,Student_59,Computer Science,Spring 2024,74.7,C,96.5,5.4
+STU-060,Student_60,Physics,Fall 2024,79.3,C+,78.8,5.2
+STU-061,Student_61,Computer Science,Fall 2024,68.8,A+,74.9,8.2
+STU-062,Student_62,Physics,Spring 2024,62.5,A+,89.9,8.9
+STU-063,Student_63,Computer Science,Spring 2024,39.2,A,89.6,3.5
+STU-064,Student_64,Chemistry,Fall 2024,89.2,C+,75.4,5.0
+STU-065,Student_65,Computer Science,Spring 2024,78.0,B+,58.2,5.4
+STU-066,Student_66,Computer Science,Fall 2024,78.4,B+,74.7,3.4
+STU-067,Student_67,Mathematics,Fall 2024,48.6,C,90.1,6.3
+STU-068,Student_68,Chemistry,Fall 2023,92.7,C,72.7,4.5
+STU-069,Student_69,English,Fall 2023,65.0,D,81.9,2.9
+STU-070,Student_70,Mathematics,Fall 2024,67.7,B+,74.1,4.4
+STU-071,Student_71,English,Fall 2024,56.0,C+,58.8,3.0
+STU-072,Student_72,Physics,Fall 2024,45.2,B+,73.9,7.1
+STU-073,Student_73,English,Fall 2024,89.4,A,90.1,8.8
+STU-074,Student_74,Computer Science,Fall 2024,91.3,A,53.6,5.5
+STU-075,Student_75,English,Fall 2024,69.5,B+,85.0,5.2
+STU-076,Student_76,Mathematics,Spring 2024,61.8,B+,67.8,5.3
+STU-077,Student_77,Mathematics,Fall 2024,66.3,C,89.3,7.4
+STU-078,Student_78,English,Spring 2024,66.8,A,90.6,7.3
+STU-079,Student_79,Mathematics,Spring 2024,54.0,C+,79.9,4.8
+STU-080,Student_80,Mathematics,Fall 2024,67.6,B,80.0,5.5
+STU-081,Student_81,English,Fall 2024,74.3,B+,72.3,6.3
+STU-082,Student_82,Chemistry,Spring 2024,87.3,B,65.9,2.7
+STU-083,Student_83,Chemistry,Spring 2024,72.2,B+,100.0,7.4
+STU-084,Student_84,Physics,Fall 2024,48.4,B,71.6,8.5
+STU-085,Student_85,Mathematics,Fall 2024,77.3,B,100.0,7.3
+STU-086,Student_86,English,Spring 2024,68.2,A,71.7,2.5
+STU-087,Student_87,Mathematics,Spring 2024,92.6,A,88.3,1.1
+STU-088,Student_88,Computer Science,Spring 2024,93.4,B,,6.4
+STU-089,Student_89,Mathematics,Fall 2023,94.0,D,88.3,3.5
+STU-090,Student_90,Mathematics,Spring 2024,63.6,B+,78.1,5.6
+STU-091,Student_91,Chemistry,Fall 2023,100.0,C+,78.2,8.1
+STU-092,Student_92,English,Fall 2024,77.3,C+,89.3,3.7
+STU-093,Student_93,Mathematics,Fall 2024,96.4,D,76.4,4.2
+STU-094,Student_94,Chemistry,Spring 2024,64.5,C,64.9,5.6
+STU-095,Student_95,Physics,Fall 2024,67.5,B,91.1,2.4
+STU-096,Student_96,Chemistry,Fall 2024,76.1,C+,68.2,3.5
+STU-097,Student_97,Chemistry,Fall 2024,74.3,C,88.2,5.0
+STU-098,Student_98,Chemistry,Fall 2024,90.8,B+,93.7,4.4
+STU-099,Student_99,Mathematics,Fall 2023,68.5,B+,77.5,6.2
+STU-100,Student_100,Mathematics,Fall 2023,89.5,A+,96.2,10.5
