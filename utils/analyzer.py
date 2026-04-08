@@ -1,7 +1,8 @@
 """
 MODULE 3: ANALYSIS ENGINE
 ━━━━━━━━━━━━━━━━━━━━━━━━━
-Statistical analysis, correlations, grouping, trend detection, and top/bottom N.
+Statistical analysis, correlations, grouping, trend detection, top/bottom N,
+Pareto analysis, moving averages, seasonality, percentile rankings.
 Designed to work with ANY dataset — auto-detects column types.
 """
 
@@ -10,22 +11,15 @@ import numpy as np
 
 
 def basic_analysis(df):
-    """
-    Generate comprehensive summary statistics.
-
-    Returns:
-        dict with 'numeric_summary', 'categorical_summary', 'shape_info'
-    """
+    """Generate comprehensive summary statistics."""
     result = {}
 
-    # Numeric summary
     numeric_df = df.select_dtypes(include='number')
     if not numeric_df.empty:
         result['numeric_summary'] = numeric_df.describe().round(2)
     else:
         result['numeric_summary'] = None
 
-    # Categorical summary
     cat_df = df.select_dtypes(include=['object', 'category'])
     if not cat_df.empty:
         cat_summary = {}
@@ -53,12 +47,7 @@ def basic_analysis(df):
 
 
 def correlation_analysis(df):
-    """
-    Compute correlation matrix for numeric columns.
-
-    Returns:
-        pd.DataFrame (correlation matrix) or None if insufficient numeric columns
-    """
+    """Compute correlation matrix for numeric columns."""
     numeric_df = df.select_dtypes(include='number')
     if numeric_df.shape[1] < 2:
         return None
@@ -66,27 +55,13 @@ def correlation_analysis(df):
 
 
 def group_analysis(df, group_col, value_col, agg_func='sum'):
-    """
-    Group by a categorical column and aggregate a numeric column.
-
-    Args:
-        df: DataFrame
-        group_col: column to group by
-        value_col: numeric column to aggregate
-        agg_func: 'sum', 'mean', 'count', 'min', 'max'
-
-    Returns:
-        pd.DataFrame sorted by aggregated values descending
-    """
+    """Group by a categorical column and aggregate a numeric column."""
     if group_col not in df.columns or value_col not in df.columns:
         return None
 
     agg_map = {
-        'sum': 'sum',
-        'mean': 'mean',
-        'count': 'count',
-        'min': 'min',
-        'max': 'max'
+        'sum': 'sum', 'mean': 'mean', 'count': 'count',
+        'min': 'min', 'max': 'max', 'median': 'median', 'std': 'std'
     }
 
     func = agg_map.get(agg_func, 'sum')
@@ -97,21 +72,15 @@ def group_analysis(df, group_col, value_col, agg_func='sum'):
 
 
 def auto_group_analysis(df):
-    """
-    Automatically find the best grouping combinations.
-    Groups each categorical column with each numeric column.
-
-    Returns:
-        list of dicts: [{'group_col', 'value_col', 'result_df'}, ...]
-    """
+    """Automatically find the best grouping combinations."""
     cat_cols = list(df.select_dtypes(include=['object', 'category']).columns)
     num_cols = list(df.select_dtypes(include='number').columns)
 
     results = []
-    for cat_col in cat_cols[:3]:  # Limit to top 3 categorical columns
-        if df[cat_col].nunique() > 20:  # Skip high-cardinality columns
+    for cat_col in cat_cols[:3]:
+        if df[cat_col].nunique() > 20:
             continue
-        for num_col in num_cols[:3]:  # Limit to top 3 numeric columns
+        for num_col in num_cols[:3]:
             grouped = group_analysis(df, cat_col, num_col, 'sum')
             if grouped is not None and len(grouped) > 1:
                 results.append({
@@ -123,12 +92,7 @@ def auto_group_analysis(df):
 
 
 def trend_analysis(df, date_col, value_col):
-    """
-    Analyze trend over time for a date-indexed numeric column.
-
-    Returns:
-        dict with trend info or None
-    """
+    """Analyze trend over time for a date-indexed numeric column."""
     if date_col not in df.columns or value_col not in df.columns:
         return None
 
@@ -139,20 +103,18 @@ def trend_analysis(df, date_col, value_col):
 
         values = df_sorted[value_col].values
 
-        # Simple linear trend
         x = np.arange(len(values))
         if len(x) > 1:
             slope = np.polyfit(x, values, 1)[0]
         else:
             slope = 0
 
-        # Calculate period-over-period changes
         first_half = values[:len(values)//2].mean()
         second_half = values[len(values)//2:].mean()
         change_pct = ((second_half - first_half) / max(abs(first_half), 1e-10)) * 100
 
         return {
-            'direction': 'Upward 📈' if slope > 0 else 'Downward 📉' if slope < 0 else 'Flat ➡️',
+            'direction': 'Upward' if slope > 0 else 'Downward' if slope < 0 else 'Flat',
             'slope': round(slope, 4),
             'first_half_avg': round(first_half, 2),
             'second_half_avg': round(second_half, 2),
@@ -167,12 +129,7 @@ def trend_analysis(df, date_col, value_col):
 
 
 def top_bottom_n(df, column, n=5):
-    """
-    Get top N and bottom N rows by a numeric column.
-
-    Returns:
-        dict with 'top' and 'bottom' DataFrames
-    """
+    """Get top N and bottom N rows by a numeric column."""
     if column not in df.columns or not pd.api.types.is_numeric_dtype(df[column]):
         return None
 
@@ -184,12 +141,7 @@ def top_bottom_n(df, column, n=5):
 
 
 def compute_kpis(df):
-    """
-    Compute dashboard KPI metrics for all numeric columns.
-
-    Returns:
-        dict: {column_name: {total, average, median, min, max, std, growth_pct}}
-    """
+    """Compute dashboard KPI metrics for all numeric columns."""
     numeric_cols = df.select_dtypes(include='number').columns
     kpis = {}
 
@@ -198,7 +150,6 @@ def compute_kpis(df):
         if len(values) == 0:
             continue
 
-        # Growth: compare first 10% vs last 10%
         n = max(1, len(values) // 10)
         first_chunk = values.head(n).mean()
         last_chunk = values.tail(n).mean()
@@ -216,3 +167,148 @@ def compute_kpis(df):
         }
 
     return kpis
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  NEW ADVANCED ANALYSIS FUNCTIONS
+# ═══════════════════════════════════════════════════════════════════
+
+def pareto_analysis(df, category_col, value_col, agg_func='sum'):
+    """
+    Identify which categories contribute the most (80/20 rule).
+
+    Returns:
+        dict with pareto data and the number of categories making up 80%
+    """
+    try:
+        grouped = df.groupby(category_col)[value_col].agg(agg_func).sort_values(ascending=False)
+        total = grouped.sum()
+        if total == 0:
+            return None
+
+        cumulative = grouped.cumsum()
+        cumulative_pct = (cumulative / total * 100).round(1)
+
+        # Find how many categories make up 80%
+        categories_for_80 = 0
+        for pct in cumulative_pct:
+            categories_for_80 += 1
+            if pct >= 80:
+                break
+
+        return {
+            'categories': list(grouped.index),
+            'values': list(grouped.values),
+            'cumulative_pct': list(cumulative_pct.values),
+            'total': round(float(total), 2),
+            'categories_for_80_pct': categories_for_80,
+            'total_categories': len(grouped),
+            'concentration_ratio': round(categories_for_80 / len(grouped) * 100, 1),
+        }
+    except Exception:
+        return None
+
+
+def moving_average(df, date_col, value_col, window=7):
+    """
+    Compute Simple Moving Average (SMA) and Exponential Moving Average (EMA).
+
+    Returns:
+        DataFrame with SMA and EMA columns added
+    """
+    try:
+        df_sorted = df[[date_col, value_col]].dropna().sort_values(by=date_col).copy()
+        if len(df_sorted) < window:
+            return None
+
+        df_sorted[f'SMA_{window}'] = df_sorted[value_col].rolling(window=window).mean().round(2)
+        df_sorted[f'EMA_{window}'] = df_sorted[value_col].ewm(span=window, adjust=False).mean().round(2)
+
+        return df_sorted
+    except Exception:
+        return None
+
+
+def seasonality_analysis(df, date_col, value_col):
+    """
+    Detect seasonal patterns in time-series data.
+
+    Returns:
+        dict with monthly/weekly averages and peak periods
+    """
+    try:
+        df_ts = df[[date_col, value_col]].dropna().copy()
+        df_ts[date_col] = pd.to_datetime(df_ts[date_col])
+        df_ts = df_ts.sort_values(by=date_col)
+
+        if len(df_ts) < 12:
+            return None
+
+        # Monthly analysis
+        df_ts['month'] = df_ts[date_col].dt.month
+        df_ts['month_name'] = df_ts[date_col].dt.month_name()
+        monthly_avg = df_ts.groupby('month')[value_col].mean().round(2)
+
+        peak_month = monthly_avg.idxmax()
+        low_month = monthly_avg.idxmin()
+
+        # Day of week analysis (if enough data)
+        df_ts['day_of_week'] = df_ts[date_col].dt.day_name()
+        daily_avg = df_ts.groupby('day_of_week')[value_col].mean().round(2)
+
+        # Quarter analysis
+        df_ts['quarter'] = df_ts[date_col].dt.quarter
+        quarterly_avg = df_ts.groupby('quarter')[value_col].mean().round(2)
+
+        month_names = {1: 'January', 2: 'February', 3: 'March', 4: 'April',
+                       5: 'May', 6: 'June', 7: 'July', 8: 'August',
+                       9: 'September', 10: 'October', 11: 'November', 12: 'December'}
+
+        return {
+            'monthly_avg': monthly_avg.to_dict(),
+            'peak_month': month_names.get(peak_month, str(peak_month)),
+            'low_month': month_names.get(low_month, str(low_month)),
+            'peak_value': round(float(monthly_avg.max()), 2),
+            'low_value': round(float(monthly_avg.min()), 2),
+            'daily_avg': daily_avg.to_dict(),
+            'quarterly_avg': quarterly_avg.to_dict(),
+            'seasonal_range': round(float(monthly_avg.max() - monthly_avg.min()), 2),
+        }
+    except Exception:
+        return None
+
+
+def percentile_ranking(df, column, categories_col=None):
+    """
+    Rank items by percentile within categories.
+
+    Returns:
+        DataFrame with percentile rank column added
+    """
+    try:
+        df_ranked = df.copy()
+        if categories_col and categories_col in df.columns:
+            df_ranked[f'{column}_percentile'] = df.groupby(categories_col)[column].rank(pct=True).round(3) * 100
+        else:
+            df_ranked[f'{column}_percentile'] = df[column].rank(pct=True).round(3) * 100
+        return df_ranked
+    except Exception:
+        return df
+
+
+def compare_groups(df, group_col, value_col):
+    """
+    Compare statistics across groups within a categorical column.
+
+    Returns:
+        DataFrame with group comparison statistics
+    """
+    try:
+        comparison = df.groupby(group_col)[value_col].agg([
+            'count', 'mean', 'median', 'std', 'min', 'max', 'sum'
+        ]).round(2)
+        comparison.columns = ['Count', 'Mean', 'Median', 'Std Dev', 'Min', 'Max', 'Total']
+        comparison = comparison.sort_values('Total', ascending=False)
+        return comparison.reset_index()
+    except Exception:
+        return None
