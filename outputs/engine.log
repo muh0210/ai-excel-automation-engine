@@ -7,3 +7,12 @@
 [2026-04-10 02:30:04] INFO     ai_excel.engine — Analysis: 6 KPIs computed
 [2026-04-10 02:30:04] INFO     ai_excel.engine — Generated 22 insights
 [2026-04-10 02:30:04] INFO     ai_excel.engine — Statistical anomaly scan (zscore): 5 columns with anomalies
+[2026-04-10 02:58:18] INFO     ai_excel.test — Test log message — this should appear in outputs/engine.log
+[2026-04-10 02:58:18] INFO     ai_excel.utils.nlq — NLQ query: average of sales
+[2026-04-10 02:58:18] INFO     ai_excel.utils.nlq — NLQ query: top 2 by sales
+[2026-04-10 02:58:19] INFO     ai_excel.engine — Cleaning 258 rows × 12 cols
+[2026-04-10 02:58:19] INFO     ai_excel.engine — Cleaning done — 8 dupes removed, shape (250, 12)
+[2026-04-10 02:58:19] INFO     ai_excel.engine — Profile: 250 rows, 12 cols, 0.0% missing
+[2026-04-10 02:58:19] INFO     ai_excel.engine — Analysis: 6 KPIs computed
+[2026-04-10 02:58:19] INFO     ai_excel.engine — Generated 22 insights
+[2026-04-10 02:58:19] INFO     ai_excel.engine — Statistical anomaly scan (zscore): 5 columns with anomalies

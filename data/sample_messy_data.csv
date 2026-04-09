@@ -1,0 +1,81 @@
+ID,Name,Score,City,Amount,Status,Date,Rating
+1,Charlie,85,New York,836.68,NULL,2024-01-15,4.5
+2,-,N/A,,846.67,-,2024-03-22,nil
+3,N/A,63,,4571.59,Pending,2024-09-10,nil
+4,N/A,-,n/a,2299.29,NULL,N/A,4.5
+5,Charlie,63,missing,269.1,NULL,,
+6,N/A,92,n/a,2970.85,,,not available
+7,-,78,New York,2989.22,NULL,2024-03-22,not available
+8,Charlie,78,---,275.73,none,2024-09-10,3.2
+9,-,N/A,London,4861.24,none,,4.8
+10,Diana,N/A,New York,2697.35,,,3.2
+11,  ,85,---,2776.97,Inactive,,
+12,Eve,92,,2576.58,Active,N/A,2.1
+13,Diana,0,,3034.2,Inactive,2024-06-01,nil
+14,Diana,63,missing,1284.71,Inactive,2024-01-15,3.2
+15,N/A,95,Berlin,1400.57,Inactive,,
+16,Alice,95,,2532.26,Inactive,2024-03-22,not available
+17,,0,London,4023.76,Pending,,
+18,N/A,78,New York,201.82,Active,2024-06-01,4.5
+19,Alice,0,New York,2997.19,Pending,2024-01-15,
+20,-,63,Berlin,4024.23,NULL,,
+21,,92,missing,742.43,-,2024-06-01,3.2
+22,N/A,-,Tokyo,25.86,Inactive,2024-03-22,nil
+23,,,n/a,1529.2,-,N/A,
+24,,-,missing,2920.13,none,2024-09-10,3.2
+25,,,---,648.33,,,3.2
+26,  ,95,missing,2101.92,,2024-03-22,4.8
+27,,N/A,Berlin,2739.22,Pending,2024-01-15,4.8
+28,Alice,63,Berlin,2974.36,Pending,,
+29,Bob,-,,1335.78,none,2024-09-10,3.2
+30,Charlie,0,London,1970.15,Inactive,2024-03-22,4.5
+31,Eve,92,,3880.61,-,2024-03-22,4.5
+32,Bob,92,Berlin,4703.13,-,2024-03-22,4.8
+33,Charlie,78,,4302.5,Active,2024-03-22,
+34,Alice,92,n/a,2799.63,NULL,,not available
+35,Alice,92,,2021.98,,2024-01-15,nil
+36,-,N/A,Tokyo,1631.43,NULL,2024-09-10,2.1
+37,Eve,0,New York,581.03,Active,2024-06-01,not available
+38,  ,95,n/a,488.08,Pending,,4.5
+39,,92,Tokyo,3426.21,-,N/A,4.5
+40,,95,,1261.96,,2024-09-10,not available
+41,,N/A,n/a,1236.04,NULL,,4.8
+42,Alice,92,,4990.89,Pending,,4.8
+43,,63,Tokyo,899.03,Active,N/A,
+44,Alice,78,New York,697.7,NULL,2024-09-10,4.8
+45,,-,,448.36,-,,
+46,Alice,63,---,2878.02,Inactive,2024-01-15,2.1
+47,-,,New York,3120.71,Pending,N/A,not available
+48,  ,85,London,1794.4,Active,2024-01-15,not available
+49,Diana,92,missing,2653.84,NULL,,3.2
+50,N/A,95,London,3931.42,-,,4.5
+51,  ,85,Berlin,4081.43,Inactive,2024-01-15,not available
+52,  ,,---,4787.46,Inactive,,
+53,Bob,92,---,4112.55,Active,,not available
+54,Eve,,missing,2802.45,none,2024-06-01,nil
+55,Eve,N/A,Tokyo,857.27,-,N/A,
+56,Charlie,78,missing,453.81,-,2024-06-01,
+57,N/A,,Berlin,225.29,,,nil
+58,,95,London,3315.96,Active,N/A,nil
+59,Diana,N/A,---,4028.06,Inactive,,not available
+60,Diana,-,London,2518.85,Inactive,2024-06-01,4.8
+61,Eve,N/A,New York,226.31,Active,2024-09-10,not available
+62,  ,92,n/a,2654.13,none,,
+63,-,85,Berlin,4675.53,,,
+64,Charlie,85,n/a,2967.95,NULL,N/A,4.5
+65,Alice,95,Berlin,4037.61,Active,N/A,2.1
+66,Charlie,N/A,,3990.77,,,4.8
+67,Bob,,New York,4657.25,-,N/A,
+68,Charlie,95,Tokyo,3839.66,,,4.5
+69,  ,78,Berlin,3725.89,Pending,2024-09-10,
+70,,95,n/a,1132.22,Inactive,,4.8
+71,  ,95,Berlin,252.62,NULL,N/A,4.5
+72,Eve,-,Tokyo,2563.88,Active,,4.8
+73,,63,Berlin,578.39,Inactive,2024-06-01,
+74,,92,,4809.09,Pending,N/A,nil
+75,,-,Berlin,1414.12,Pending,N/A,2.1
+76,Charlie,85,,4257.37,Inactive,N/A,3.2
+77,Charlie,85,,1907.5,none,N/A,2.1
+78,Charlie,,---,1582.13,,,nil
+79,,,,4672.55,Active,2024-06-01,4.8
+80,Eve,,Berlin,1784.78,Active,2024-06-01,2.1

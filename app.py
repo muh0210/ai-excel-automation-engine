@@ -104,11 +104,18 @@ dc1, dc2, dc3 = st.columns(3)
 with dc1: demo_sales = st.button("🛒 E-Commerce Demo", use_container_width=True)
 with dc2: demo_emp = st.button("👥 Employee Demo", use_container_width=True)
 with dc3: demo_fin = st.button("💰 Finance Demo", use_container_width=True)
+dc4, dc5, dc6 = st.columns(3)
+with dc4: demo_budget = st.button("📊 Budget vs Actual", use_container_width=True)
+with dc5: demo_orders = st.button("📦 Orders Demo", use_container_width=True)
+with dc6: demo_messy = st.button("🧪 Messy Data Test", use_container_width=True)
 
 demo_path = None
 if demo_sales: demo_path = 'data/sample_ecommerce_sales.xlsx'
 elif demo_emp: demo_path = 'data/sample_employee_data.xlsx'
 elif demo_fin: demo_path = 'data/sample_financial_report.xlsx'
+elif demo_budget: demo_path = 'data/sample_budget_vs_actual.xlsx'
+elif demo_orders: demo_path = 'data/sample_orders.xlsx'
+elif demo_messy: demo_path = 'data/sample_messy_data.csv'
 if demo_path and os.path.exists(demo_path):
     st.session_state['demo_file'] = demo_path
 
@@ -154,11 +161,11 @@ if active_file is not None:
     st.markdown('<div class="section-header">🧹 Data Cleaning Engine</div>', unsafe_allow_html=True)
 
     @st.cache_data(show_spinner=False)
-    def _cached_clean(df_hash):
-        return run_cleaning(df_raw)
+    def _cached_clean(_df):
+        return run_cleaning(_df)
 
     with st.spinner("Cleaning..."):
-        df_clean, cr_report = _cached_clean(id(df_raw))
+        df_clean, cr_report = _cached_clean(df_raw)
 
     cc = st.columns(4)
     total_missing_fixed = sum(cr_report.get('missing_values_before',{}).values()) + sum(cr_report.get('markers_replaced',{}).values())
